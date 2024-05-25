@@ -1,92 +1,96 @@
-class node:
-    def __init__(self,data):
-        self.data=data
-        self.next=None
-        self.prev1=None
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
 
-class Circularlinkedlist:
+class CircularLinkedList:
     def __init__(self):
-        self.head=None
-        self.prev=None
+        self.head = None
 
-    #-----------Insert at beginning---------#    
-    def insertB(self,data):
-        new_node=node(data)
-        if self.head is None:
-            self.head=new_node
-            self.head.next=self.head
-        else:
-            current=self.head
-            while current.next!=self.head:
-                current=current.next
-            new_node.next = self.head
-            current.next=new_node
-            self.head = new_node
-
-    #--------Insert at End------------#
-    def insertEnd(self, data):
-        new_node = node(data)
+    # Insert at beginning
+    def insert_beginning(self, data):
+        new_node = Node(data)
         if self.head is None:
             self.head = new_node
             self.head.next = self.head
         else:
             current = self.head
-            while current.next!= self.head:
+            while current.next != self.head:
                 current = current.next
             new_node.next = self.head
             current.next = new_node
-            self.head.prev = new_node        # Remove this line also inserts at end
+            self.head = new_node
 
-    #-----------Delete at beginning-----------#
-    def deleteB(self):
+    # Insert at End
+    def insert_end(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            self.head.next = self.head
+        else:
+            current = self.head
+            while current.next != self.head:
+                current = current.next
+            current.next = new_node
+            new_node.next = self.head
+
+    # Delete at end
+    def delete_end(self):
         if self.head is None:
             print("List is Empty")
             return
         if self.head.next == self.head:
             self.head = None
         else:
-            self.head.prev1.next = self.head.next
-            self.head = self.head.next
-            self.head.prev1 = self.head.prev1.prev1
+            current = self.head
+            while current.next.next != self.head:
+                current = current.next
+            current.next = self.head
 
-    #-----------Display-------------#
+    # Display
     def display(self):
-        print(self.head.data,end="->")
-        current=self.head.next
-        while current!=self.head:
-            print(current.data,end="->")
-            current=current.next
- #-----------------Find middle element------------#
-    def middleElement(self):
+        if self.head is None:
+            print("List is Empty")
+            return
+        current = self.head
+        while True:
+            print(current.data, end=" -> ")
+            current = current.next
+            if current == self.head:
+                break
+        print()
+
+    # Find middle element
+    def middle_element(self):
         if self.head is None:
             print("List is Empty")
             return
         slow = self.head
         fast = self.head
-        while fast.next is not None and fast.next.next is not None:
+        while fast.next != self.head and fast.next.next != self.head:
             slow = slow.next
             fast = fast.next.next
         print("Middle element is", slow.data)
 
-o=Circularlinkedlist()
-print("1.Insert at Beginning")
-print("2.Insert at End")
-print("3.Delete at Beginning")
-print("4.Display")
-print("5.Finding the middle element")
+o = CircularLinkedList()
+print("1. Insert at Beginning")
+print("2. Insert at End")
+print("3. Delete at End")
+print("4. Display")
+print("5. Finding the middle element")
 while True:
-    ch=int(input("Enter your choice:"))
-    if ch==1:
-        key=int(input("Enter data:"))
-        o.insertB(key)
-    elif ch==2:
-        key=int(input("Enter data:"))
-        o.insertEnd(key)
-    elif ch==3:
-        o.deleteB()
-    elif ch==4:
+    choice = int(input("Enter your choice: "))
+    if choice == 1:
+        data = int(input("Enter data: "))
+        o.insert_beginning(data)
+    elif choice == 2:
+        data = int(input("Enter data: "))
+        o.insert_end(data)
+    elif choice == 3:
+        o.delete_end()
+    elif choice == 4:
         o.display()
-    elif ch==5:
-        o.middleElement()
+    elif choice == 5:
+        o.middle_element()
     else:
-        exit(0)    
+        break
